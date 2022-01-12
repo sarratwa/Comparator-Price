@@ -5,7 +5,23 @@ const ProdSchema = new mongoose.Schema({
         type: String,
         trum: true,
         minlength: 3,
-    }
+    },
+    price: {
+        type: String,
+        trum: true,
+    },
+    reduction: {
+        type: String,
+        trum: true,
+    },
+    description: {
+        type: String,
+        trum: true,
+    },
+    link: {
+        type: String,
+        trum: true,
+    },
 });
 
 const Prod = mongoose.model('Prod', ProdSchema);
