@@ -1,3 +1,4 @@
+from multiprocessing.pool import IMapIterator
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -48,8 +49,13 @@ for link in ProductLinks:
         Prod_Det = soup2.find("div",{"id":"more_info_sheets"}).text
     except:
         Prod_Det = ("-")
+#Image
+    try:
+        Image = soup2.find("img",{"id":"bigpic"})['src']
+    except:
+        Image = ("-")
 
-    PharmaShop = {"Produit":Product_Name, "Prix":New_Price, "Ancien prix":Old_Price, "Remise":Discount, "Description":Prod_Det, "Lien":link}
+    PharmaShop = {"Produit":Product_Name, "Prix":New_Price, "Ancien prix":Old_Price, "Remise":Discount, "Description":Prod_Det, "Lien":link, "Image":Image}
     PharmaShop_Visage_Product.append(PharmaShop)
     c += 1
     print("Completed",c)

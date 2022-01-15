@@ -8,7 +8,7 @@ PharmaShop_Cheveux_Product = []
 c = 0
 ProductLinks = []
 
-for i in range(1,57):
+for i in range(1,58):
     Site = requests.get("https://www.pharma-shop.tn/906-cheveux#/page-{}".format(i)).text
     soup = BeautifulSoup(Site,'html.parser')
     ProductList = soup.find_all("div",{"class":"product-container"})
@@ -48,8 +48,13 @@ for link in ProductLinks:
         Prod_Det = soup2.find("div",{"id":"more_info_sheets"}).text
     except:
         Prod_Det = ("-")
+#Image
+    try:
+        Image = soup2.find("img",{"id":"bigpic"})['src']
+    except:
+        Image = ("-")
 
-    PharmaShop = {"Produit":Product_Name, "Prix":New_Price, "Ancien prix":Old_Price, "Remise":Discount, "Description":Prod_Det, "Lien":link}
+    PharmaShop = {"Produit":Product_Name, "Prix":New_Price, "Ancien prix":Old_Price, "Remise":Discount, "Description":Prod_Det, "Lien":link, "Image":Image}
     PharmaShop_Cheveux_Product.append(PharmaShop)
     c += 1
     print("Completed",c)

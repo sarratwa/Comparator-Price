@@ -35,7 +35,12 @@ for link in ProductLinks:
         Prod_Det = soup2.find("div",{"class":"woocommerce-product-details__short-description"}).text.replace('\n',"")
     except:
         Prod_Det = ("-")
-    Corps = {"Produit":Product_Name, "Prix":Price, "Description":Prod_Det, "Lien":link}
+#Image
+    try:
+        Image = soup2.find("a",{"class":"woocommerce-main-image zoom"})['href']
+    except:
+        Image = ("-")
+    Corps = {"Produit":Product_Name, "Prix":Price, "Description":Prod_Det, "Lien":link, "Image":Image}
     Anais_Corps_Prod.append(Corps)
     c += 1
     print("Completed ",c)

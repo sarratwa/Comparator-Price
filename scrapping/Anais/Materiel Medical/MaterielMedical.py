@@ -1,34 +1,52 @@
-from requests_html import HTMLSession
+import requests
+from bs4 import BeautifulSoup
 import pandas as pd
-url = 'https://anais.tn/product-category/materiel-medical/'
-s = HTMLSession()
+
+
+headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36"}
+
+Anais_MatMedical_Prod = []
 c = 0
+ProductLinks = []
+for i in range(1,2):
+    MatMedicalSite = requests.get("https://anais.tn/product-category/materiel-medical/".format(i)).text
+    soup = BeautifulSoup(MatMedicalSite,'html.parser')
+    ProductList = soup.find_all("div",{"class":"product-wrapper"})
+    #print(ProductList)
+    for Product in ProductList:
+        link = Product.find("a",{"class":"woocommerce-LoopProduct-link woocommerce-loop-product__link"}).get('href')
+        ProductLinks.append(link)
+#print(ProductLinks)
+for link in ProductLinks:
+    site = requests.get(link, headers=headers).text
+    soup2 = BeautifulSoup(site,'html.parser')
+#Product_Name
+    try:
+        Product_Name=soup2.find("h1",{"class":"product_title entry-title"}).text
+    except:
+        Product_Name = ("-")
+#Price
+    try:
+        Price = soup2.find("p",{"class":"price"}).text
+    except:
+        Price = ("-")
+#Prod_Det
+    try:
+        Prod_Det = soup2.find("div",{"class":"woocommerce-product-details__short-description"}).text
+    except:
+        Prod_Det = ("-")
+#Image
+    try:
+        Image = soup2.find("a",{"class":"woocommerce-main-image zoom"})['href']
+    except:
+        Image = ("-")
 
-def get_links(url):
-    r = s.get(url)
-    items = r.html.find('div.product-wrapper')
-    links = []
-    for item in items:
-        links.append(item.find('a', first=True).attrs['href'])
-    return links
-
-def get_Product(link):
-    r = s.get(link)
-    Product_Name = r.html.find('h1',first=True).full_text
-    Price = r.html.find('p')[1].full_text
-    Prod_Desc = r.html.find('div.woocommerce-product-details__short-description ul')[0].full_text.replace('\n','')
-    Category = r.html.find('a[rel=tag]', first=True).full_text
-    
-    Product = {'Nom Produit':Product_Name,'Prix':Price,'Description':Prod_Desc,'Categorie':Category,"Lien":link}
-    return Product
-
-links = get_links(url)
-results = []
-for link in links:
-    results.append(get_Product(link))
+    MatMedical = {"Produit":Product_Name, "Prix":Price, "Description":Prod_Det, "Lien":link, "Image":Image}
+    Anais_MatMedical_Prod.append(MatMedical)
     c += 1
     print("Completed ",c)
 
-MatMed=pd.DataFrame(results)
-print(MatMed)
-#MatMed.to_excel("MaterielMedical_AnaisProduct.xlsx",index=False)
+AnaisAllProduct_MatMedical = pd.DataFrame(Anais_MatMedical_Prod)
+
+#To Excel
+AnaisAllProduct_MatMedical.to_excel("MatMedical_AnaisProduct.xlsx",index=False)

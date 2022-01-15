@@ -10,7 +10,7 @@ c = 0
 ProductLinks = []
 
 
-for i in range(1,43):
+for i in range(1,40):
     Site = requests.get('https://www.cosmeto.tn/shop/page/{}/'.format(i)).text
     soup = BeautifulSoup(Site, 'html.parser')
     ProductList = soup.find_all("ul",{"class":"products columns-6 hongo-shop-standard hongo-shop-common-isotope hongo-product-list-common-wrap hongo-shop-col-6 hongo-shop-md-col-4 hongo-shop-sm-col-4 hongo-shop-xs-col-1 gutter-large hongo-buttons-1 hongo-text-center"})
