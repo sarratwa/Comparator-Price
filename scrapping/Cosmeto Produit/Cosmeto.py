@@ -2,6 +2,28 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
+
+import pymongo
+
+# create mongodb client
+client = pymongo.MongoClient('mongodb://127.0.0.1:27017/')
+
+# create mongodb database
+mydb = client['products']
+
+data = mydb.prods
+
+record = {
+    "title": "Product #4",
+    "price": "5,000 TN",
+    "reduction": "-41%",
+    "description": "bla bla bla",
+    "link": "https://blablabla.com"
+}
+
+data.insert_one(record)
+
+
 baseurl = "https://www.cosmeto.tn/"
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36"}
 
@@ -58,4 +80,4 @@ for link in ProductLinks:
 CosmetoAllProduct = pd.DataFrame(Cosmeto)
 
 #To Excel
-CosmetoAllProduct.to_excel("Produit_Cosmeto.xlsx",index=False)
+#CosmetoAllProduct.to_excel("Produit_Cosmeto.xlsx",index=False)
