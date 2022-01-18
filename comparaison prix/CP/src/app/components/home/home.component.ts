@@ -15,12 +15,9 @@ export class HomeComponent implements OnInit {
     private shopService:ShopService) { }
 
   ngOnInit() {
-    //how to call the service ??
-    /*this.shopService.getAllProducts().subscribe(
-      (data)=>{
-        this.products = data.products;
-      }
-    );*/
+    this.shopService.get()
+      .subscribe(products => 
+        this.products = products);
   }
 
 }

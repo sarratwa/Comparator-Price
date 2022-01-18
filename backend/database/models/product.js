@@ -22,6 +22,10 @@ const ProdSchema = new mongoose.Schema({
         type: String,
         trum: true,
     },
+    image: {
+        type: String,
+        trum: true,
+    }
 });
 
 const Prod = mongoose.model('Prod', ProdSchema);

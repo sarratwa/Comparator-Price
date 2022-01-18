@@ -55,4 +55,4 @@ for link in ProductLinks:
 ParaPromoAllProduct = pd.DataFrame(Para_Promo)
 
 #To Execl
-ParaPromoAllProduct.to_excel("Produit_ParaPromo.xlsx",index=False)
+ParaPromoAllProduct.to_csv("Produit_ParaPromo.xlsx")
