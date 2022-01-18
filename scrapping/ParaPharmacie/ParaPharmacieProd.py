@@ -1,6 +1,35 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import pymongo
+import json
+
+#connect to mongodb
+client = pymongo.MongoClient('mongodb://localhost:27017')
+
+#read csv file
+df = pd.read_csv('ParaPharmacie.csv')
+
+#data frame
+# print(df.head())
+
+#tail of data frame
+# print(df.tail())
+
+#shape of data frame
+# print(df.shape)
+
+#convert csv to json because mongodb stores in the form of json
+data = df.to_dict(orient = 'records')
+# print(data)
+
+#database
+db = client['products']
+
+# print(db)
+
+#save records in this database
+db.ParaPharmacie.insert_many(data)
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36"}
 
@@ -42,7 +71,7 @@ for link in ProductLinks:
     except:
         Image = ("-")
 
-    ParaPharmacie = {"Produit":Product_Name, "Prix":Price, "Description":Prod_Det, "Lien":link, "Image":Image}
+    ParaPharmacie = {"titre":Product_Name, "Price":Price, "description":Prod_Det, "Link":link, "Image":Image}
     ParaPharmacie_Product.append(ParaPharmacie)
     c += 1
     print("Completed",c)
@@ -50,4 +79,4 @@ for link in ProductLinks:
 ParaPharmacieProd = pd.DataFrame(ParaPharmacie_Product)
 
 #To Excel
-ParaPharmacieProd.to_excel("ParaPharmacie.xlsx",index=False)
+ParaPharmacieProd.to_csv("ParaPharmacie.csv",index=False)

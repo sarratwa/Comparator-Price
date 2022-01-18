@@ -1,6 +1,36 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import pymongo
+import json
+
+#connect to mongodb
+client = pymongo.MongoClient('mongodb://localhost:27017')
+
+#read csv file
+df = pd.read_csv('Produit_ParaPromo.csv')
+
+#data frame
+# print(df.head())
+
+#tail of data frame
+# print(df.tail())
+
+#shape of data frame
+# print(df.shape)
+
+#convert csv to json because mongodb stores in the form of json
+data = df.to_dict(orient = 'records')
+# print(data)
+
+#database
+db = client['products']
+
+# print(db)
+
+#save records in this database
+db.ParaPromo.insert_many(data)
+
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36"}
 
@@ -55,4 +85,4 @@ for link in ProductLinks:
 ParaPromoAllProduct = pd.DataFrame(Para_Promo)
 
 #To Execl
-ParaPromoAllProduct.to_csv("Produit_ParaPromo.xlsx")
+ParaPromoAllProduct.to_csv("Produit_ParaPromo.csv")
