@@ -1,33 +1,49 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import pymongo
+import json
 
-baseurl = "https://www.cosmeto.tn/"
+#connect to mongodb
+client = pymongo.MongoClient('mongodb://localhost:27017')
+
+#read csv file
+df = pd.read_csv('Produit_Cosmeto.csv.csv')
+
+#data frame
+# print(df.head())
+
+#tail of data frame
+# print(df.tail())
+
+#shape of data frame
+# print(df.shape)
+
+#convert csv to json because mongodb stores in the form of json
+data = df.to_dict(orient = 'records')
+# print(data)
+
+#database
+db = client['products']
+
+# print(db)
+
+#save records in this database
+db.Cosmeto.insert_many(data)
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36"}
 
 Cosmeto = []
 c = 0
 ProductLinks = []
 
-
-for i in range(1,40):
-    Site = requests.get('https://www.cosmeto.tn/shop/page/{}/'.format(i)).text
-    soup = BeautifulSoup(Site, 'html.parser')
-    ProductList = soup.find_all("ul",{"class":"products columns-6 hongo-shop-standard hongo-shop-common-isotope hongo-product-list-common-wrap hongo-shop-col-6 hongo-shop-md-col-4 hongo-shop-sm-col-4 hongo-shop-xs-col-1 gutter-large hongo-buttons-1 hongo-text-center"})
-      
-for Product in ProductList:
-        link = Product.find("a",{"class":"woocommerce-LoopProduct-link woocommerce-loop-product__link"}).get("href")
-        ProductLinks.append(link)
-#print(ProductLinks)
-
-for i in range(1,43):
+for i in range(1,2):
     Site = requests.get('https://www.cosmeto.tn/shop/page/{}/'.format(i)).text
     soup = BeautifulSoup(Site, 'html.parser')
     ProductList = soup.find_all("div",{"class":"product-thumb-wrap"})
-    #print(ProductList)   
+    #print(ProductList)
 
     for Product in ProductList:
-        link = Product.find("a",{"class":"woocommerce-LoopProduct-link woocommerce-loop-product__link"}).get("href")
+        link = Product.find("a",{"class":"woocommerce-LoopProduct-link woocommerce-loop-product__link"}).get('href')
         ProductLinks.append(link)
 #print(ProductLinks)
 
@@ -50,7 +66,13 @@ for link in ProductLinks:
         Prod_det = soup2.find("div",{"class":"woocommerce-Tabs-panel woocommerce-Tabs-panel--description panel entry-content wc-tab"}).text
     except:
         Prod_det = ("-")
-    Cos = {"Produit":Prodcut_Name, "Prix":Price, "Description":Prod_det, "Lien":link}
+#Image
+    try:
+        Image = soup2.find("div",{"class":"woocommerce-product-gallery__image"}).get('data-thumb')
+    except:
+        Image = ("-")
+
+    Cos = {"title":Prodcut_Name, "price":Price, "description":Prod_det, "link":link, "Image":Image}
     Cosmeto.append(Cos)
     c += 1
     print ("Completed", c)
@@ -58,4 +80,4 @@ for link in ProductLinks:
 CosmetoAllProduct = pd.DataFrame(Cosmeto)
 
 #To Excel
-CosmetoAllProduct.to_excel("Produit_Cosmeto.xlsx",index=False)
+CosmetoAllProduct.to_csv("Produit_Cosmeto.csv",index=False)
