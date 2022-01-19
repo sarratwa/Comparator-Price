@@ -43,7 +43,7 @@ for link in ProductLinks:
     except:
         Image = ("-")
 
-    Cheveux = {"title":Product_Name, "price":Price, "description":Prod_Det, "link":link, "Image":Image}
+    Cheveux = {"title":Product_Name, "price":Price, "description":Prod_Det, "link":link, "Image":Image,"categorie":"Cheveux"}
     #reduction
 
     Anais_Cheveux_Prod.append(Cheveux)

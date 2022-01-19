@@ -40,11 +40,11 @@ for link in ProductLinks:
         Image = soup2.find("a",{"class":"woocommerce-main-image zoom"})['href']
     except:
         Image = ("-")
-    Corps = {"Produit":Product_Name, "Prix":Price, "Description":Prod_Det, "Lien":link, "Image":Image}
+    Corps = {"title":Product_Name, "price":Price, "description":Prod_Det, "link":link, "Image":Image, "categorie":"Corps"}
     Anais_Corps_Prod.append(Corps)
     c += 1
     print("Completed ",c)
     AnaisAllProduct_Corps = pd.DataFrame(Anais_Corps_Prod)
 
 #To Excel
-AnaisAllProduct_Corps.to_excel("Corps_AnaisProduct.xlsx",index=False)
+AnaisAllProduct_Corps.to_csv("Corps_AnaisProduct.csv",index=False)

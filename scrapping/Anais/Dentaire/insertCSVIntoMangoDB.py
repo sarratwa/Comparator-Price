@@ -6,7 +6,7 @@ import json
 client = pymongo.MongoClient('mongodb://localhost:27017')
 
 #read csv file
-df = pd.read_csv('Cheveux_AnaisProduct.csv')
+df = pd.read_csv('Dentaire_AnaisProduct.csv')
 
 #data frame
 # print(df.head())

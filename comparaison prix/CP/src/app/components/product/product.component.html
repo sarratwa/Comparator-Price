@@ -1,22 +1,15 @@
-    <div class="card h-100">
-        <a href="shop-single.html">
-            <img src="./assets/img/feature_prod_01.jpg" class="card-img-top" alt="...">
-        </a>
-        <div class="card-body">
-            <ul class="list-unstyled d-flex justify-content-between">
-                <li>
-                    <i class="text-warning fa fa-star"></i>
-                    <i class="text-warning fa fa-star"></i>
-                    <i class="text-warning fa fa-star"></i>
-                    <i class="text-muted fa fa-star"></i>
-                    <i class="text-muted fa fa-star"></i>
-                </li>
-                <li class="text-muted text-right">$240.00</li>
-            </ul>
-            <a href="shop-single.html" class="h2 text-decoration-none text-dark">Gym Weight</a>
-            <p class="card-text">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt in culpa qui officia deserunt.
-            </p>
-            <p class="text-muted">Reviews (24)</p>
-        </div>
+<div class="card h-100" *ngFor="let p of product">
+    <a (click)="goToDetail(product._id)">
+        <img src= "{{ p.Image }}" class="card-img-top" alt="...">
+    </a>
+    <div class="card-body">
+        <ul class="list-unstyled d-flex justify-content-between">
+            <li class="text-muted text-right">{{ p.price }}</li>
+        </ul>
+        <a (click)="goToDetail(product._id)" class="h3 text-decoration-none text-dark">{{p.title | lowercase}}</a>
+        <p class="card-text">
+            {{ p.description }}
+        </p>
     </div>
+    <a (click)="goToDetail(p._id)" class="h3 text-decoration-none text-dark btn btn-success">Check</a>
+</div>

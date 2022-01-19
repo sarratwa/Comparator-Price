@@ -40,7 +40,7 @@ for link in ProductLinks:
     except:
         Image = ("-")
 
-    Hygiene = {"Produit":Product_Name, "Prix":Price, "Description":Prod_Det, "Lien":link, "Image":Image}
+    Hygiene = {"title":Product_Name, "price":Price, "description":Prod_Det, "link":link, "Image":Image, "categorie":"Autre"}
     
     Anais_Hygiene_Prod.append(Hygiene)
     c += 1
@@ -49,4 +49,4 @@ for link in ProductLinks:
 AnaisAllProduct_Hygiene= pd.DataFrame(Anais_Hygiene_Prod)
 
 #To Excel
-AnaisAllProduct_Hygiene.to_excel("Hygiene_AnaisProduct.xlsx",index=False)
+AnaisAllProduct_Hygiene.to_csv("Hygiene_AnaisProduct.csv",index=False)

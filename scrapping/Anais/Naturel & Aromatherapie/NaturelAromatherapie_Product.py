@@ -43,7 +43,7 @@ for link in ProductLinks:
     except:
         Image = ("-")
 
-    NatAroma = {"Produit":Product_Name, "Prix":Price, "Description":Prod_Det, "Lien":link, "Image":Image}
+    NatAroma = {"title":Product_Name, "price":Price, "description":Prod_Det, "link":link, "Image":Image, "categorie":"Nature/Bio"}
     Anais_NatAroma_Prod.append(NatAroma)
     c += 1
     print("Completed ",c)
@@ -51,4 +51,4 @@ for link in ProductLinks:
 AnaisAllProduct_NatAroma= pd.DataFrame(Anais_NatAroma_Prod)
 
 #To Excel
-AnaisAllProduct_NatAroma.to_excel("Naturel&Aromatherapie_AnaisProduct.xlsx",index=False)
+AnaisAllProduct_NatAroma.to_csv("Naturel&Aromatherapie_AnaisProduct.csv",index=False)

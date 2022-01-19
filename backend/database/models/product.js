@@ -25,7 +25,11 @@ const ProdSchema = new mongoose.Schema({
     image: {
         type: String,
         trum: true,
-    }
+    },
+    categorie: {
+        type: String,
+        trum: true,
+    },
 });
 
 const Prod = mongoose.model('Prod', ProdSchema);

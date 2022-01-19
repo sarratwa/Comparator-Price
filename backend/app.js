@@ -113,7 +113,7 @@ app.patch('/products/:productId', (req,res) => {
 });
 
 // Read One 
-app.get('/products/:productId', (req, res) => {
+app.get('/product-detail/:productId', (req, res) => {
     Prod.find({_id : req.params.productId})
     .then((prod) => res.send(prod))
     .catch((error) => console.log(error));
@@ -128,18 +128,18 @@ app.get('/products', (req, res) => {
 });
 
 // Delete
-
+/*
 app.delete('/products/:productId', (req,res) => {
     Prod.findByIdAndDelete(req.params.productId)
         .then(products => res.send(products))
         .catch((error) => console.log(error));
-});
-/*
+});*/
+
 app.delete('/products', (req,res) => {
     Prod.deleteMany()
         .then(products => res.send(products))
         .catch((error) => console.log(error));
-});*/
+});
 
 
 

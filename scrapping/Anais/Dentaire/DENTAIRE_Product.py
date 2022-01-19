@@ -43,7 +43,7 @@ for link in ProductLinks:
         Image = soup2.find("a",{"class":"woocommerce-main-image zoom"})['href']
     except:
         Image = ("-")
-    Dentaire = {"Produit":Product_Name, "Prix":Price, "Description":Prod_Det, "Lien":link, "Image":Image}   
+    Dentaire = {"title":Product_Name, "price":Price, "description":Prod_Det, "link":link, "Image":Image, "categorie":"Dentaire"}
      
     Anais_Dentaire_Prod.append(Dentaire)
     c += 1
@@ -52,4 +52,4 @@ for link in ProductLinks:
 AnaisAllProduct_Dentaire = pd.DataFrame(Anais_Dentaire_Prod)
 
 #To Excel
-AnaisAllProduct_Dentaire.to_excel("Dentaire_AnaisProduct.xlsx",index=False)
+AnaisAllProduct_Dentaire.to_csv("Dentaire_AnaisProduct.csv",index=False)
